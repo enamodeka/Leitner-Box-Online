@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leitner Box Online</title>
+</head>
+<body>
+  <h1>Leitner Box Online</h1>
+  <div class="login">
+    <form action="/perform_login" method="POST" class="login__form">
+      {{error_block|safe}}
+      <div class="login__input-group">
+        <input name="username" type="text" class="login__input-text" required>
+        <label for="username" class="login__input-label">username</label>
+      </div>
+      <div class="login__input-group">
+        <input name="password" type="password" class="login__input-text" required>
+        <label for="password" class="login__input-label">login</label>
+      </div>
+      <button class="login__button">Login</button>
+    </form>
+  </div>
+</body>
+</html>
