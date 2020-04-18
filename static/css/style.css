@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxygen&display=swap');
+
+body {
+  font-family: 'Oxygen', sans-serif;
+  background-color: #e5e5e5;
+  color: #646464;
+}
+
+.card__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.card {
+  background: white;
+  
+  display: flex;
+  flex-direction: column;
+  
+  border-radius: 45px;
+  flex-wrap: wrap;
+  width: 602px;
+  height: 318px;
+}
+
+.card__front,
+.card__back {
+  position: absolute;
+  flex: 1;
+  width: 602px;
+  height: 318px;
+  display: flex;
+}
+
+.card__front {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.card__back {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.card__front--hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.card__back--show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.card__text {
+  font-size: 30px;
+  text-align: center;
+  flex-grow: 1;
+  align-self: center;
+  justify-self: center;
+}

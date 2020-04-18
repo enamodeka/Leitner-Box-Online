@@ -11,3 +11,4 @@ logged_in_user_id = 0
 settings = []
 settings.append(logged_in_user_id)
 USER_ID = 0
+

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game - Leitner Box Online</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__title">
+      Editing Card
+    </div>
+    <div class="nav__options">
+      <ul>
+        <li>
+          <a href="/edit/0">Create new card</a>
+          <a id="ui_btn_add_to_deck" href="#">Add to deck</a>
+          <a href="/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- MENU TEMPLATE -->
+  <!-- <nav class="nav">
+    <div class="nav__title">
+      Editing
+    </div>
+    <div class="nav__options">
+      <ul>
+        <li>
+          <a href="/edit/0">Create new card</a>
+          <a href="/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav> -->

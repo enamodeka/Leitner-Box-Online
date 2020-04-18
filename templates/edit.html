@@ -1,11 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edit - Leitner Box Online</title>
-</head>
-<body>
-  <h1>{{ message }}</h1>
-</body>
-</html>
+{% include 'header.html' %}
+<h1>{{ message }}</h1>
+
+{% if card_id == 0 %}
+  <div class="card__container">
+    <div class="card">
+      <div id="ui_card_front" class="card__front card__show">
+        <p id="ui_text_front" class="card__text" contenteditable="true">
+          Enter your question here...<br>Remember, keep the chunk: small,
+          connected and meaningful.
+          <!-- <input name="text_front" type="text"> -->
+        </p>
+        <img src="" alt="" class="card__image">
+      </div>
+      <div id="ui_card_back" class="card__back card__hide">
+        <p id="ui_text_back" class="card__text" contenteditable="true">
+          What's the answer?
+          <!-- <input name="text_back" type="text"> -->
+        </p>
+        <img src="" alt="" class="card__image">
+      </div>
+    </div>
+    <form action="" class="card__buttons">
+      <button type="submit"  class="card__button card__button--right">Was it <span class="color-green">RIGHT?</span>?</button>
+      <button id="ui_btn_flip" class="card__button card__button--flip"><img src="/static/card-flip-icon.svg"></button>
+      <button type="submit" formaction=""
+      class="card__button card__button--wrong">Was it <span
+      class="color-red">WRONG?</span>?</button>
+    </form>
+  </div>
+
+{% else %}
+
+{% endif %}
+
+{% include 'footer.html' %}

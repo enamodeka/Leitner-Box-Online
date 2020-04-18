@@ -1,45 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Game - Leitner Box Online</title>
-</head>
-<body>
-  The game is happening yo!
-  <h1>Cards:{{ cards }}</h1>
-  {% if cards == -1 %}
-    
-    <h2 class="gameplay__title">There are no cards in your deck.</h2>
-    <p class="gameplay__subtitle">You can <a href="/edit/0">create a card</a>
-    here.</p>
+{% include 'header.html' %}
+The game is happening yo!
+<h1>Cards:{{ cards }}</h1>
+{% if cards == -1 %}
+  
+  <h2 class="gameplay__title">There are no cards in your deck.</h2>
+  <p class="gameplay__subtitle">You can <a href="/edit/0">create a card</a>
+  here.</p>
 
-  {% elif cards == 0 %}
+{% elif cards == 0 %}
 
-  <h2 class="gameplay__title">There are no more cards for today.</h2>
-    <p class="gameplay__subtitle"><a href="/edit/0">Create a new card</a>
-    or come back tomorrow.</p>
+<h2 class="gameplay__title">There are no more cards for today.</h2>
+  <p class="gameplay__subtitle"><a href="/edit/0">Create a new card</a>
+  or come back tomorrow.</p>
 
-  {% else %}
-  <div class="card__container">
-    <div class="card">
-      <div class="card__front">
-        <p class="card__text">{{ card_data['text_front'] }}</p>
-        <img src="{{ card_data['image_front_url'] }}" alt="" class="card__image">
-      </div>
-      <div class="card__back">
-        <p class="card__text">{{ card_data['text_back'] }}</p>
-        <img src="{{ card_data['image_back_url'] }}" alt="" class="card__image">
-      </div>
+{% else %}
+<div class="card__container">
+  <div class="card">
+    <div id="ui_card_front" class="card__front">
+      <p class="card__text">{{ card_data['text_front'] }}</p>
+      <img src="{{ card_data['image_front_url'] }}" alt="" class="card__image">
     </div>
-    <form action="/count_right/{{ card_data['card_id'] }}" class="card__buttons">
-      <button type="submit"  class="card__button card__button--right">Was it <span class="color-green">RIGHT?</span>?</button>
-      <button class="card__button card__button--flip"><img src="/static/card-flip-icon.svg"></button>
-      <button type="submit" formaction="/count_wrong/{{ card_data['card_id'] }}"
-      class="card__button card__button--wrong">Was it <span
-      class="color-red">WRONG?</span>?</button>
-    </form>
+    <div id="ui_card_back" class="card__back">
+      <p class="card__text">{{ card_data['text_back'] }}</p>
+      <img src="{{ card_data['image_back_url'] }}" alt="" class="card__image">
+    </div>
   </div>
-  {% endif %}
-</body>
-</html>
+  <form action="/count-right/{{ card_data['card_id'] }}" class="card__buttons">
+    <button type="submit"  class="card__button card__button--right">Was it <span class="color-green">RIGHT?</span>?</button>
+    <button id="ui_btn_flip" class="card__button card__button--flip"><img src="/static/card-flip-icon.svg"></button>
+    <button type="submit" formaction="/count-wrong/{{ card_data['card_id'] }}"
+    class="card__button card__button--wrong">Was it <span
+    class="color-red">WRONG?</span>?</button>
+  </form>
+</div>
+{% endif %}
+{% include 'footer.html' %}
