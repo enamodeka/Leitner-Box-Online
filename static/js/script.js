@@ -33,9 +33,11 @@ ui_btn_flip.addEventListener('click', function(e) {
 ui_btn_add_to_deck.addEventListener('click', function(e) {
   console.log('Click')
   e.preventDefault();
+  // console.log('Unescaped front text:', ui_text_front.textContent);
+  // console.log('Escaped front text:', ui_text_front.textContent.escapeSpecialChars());
   const data = {
-    text_front: ui_text_front.textContent,
-    text_back: ui_text_back.textContent
+    "text_front": ui_text_front.textContent,
+    "text_back": ui_text_back.textContent
   }
   const xhr = new XMLHttpRequest();
   xhr.open('POST', '/add-card');

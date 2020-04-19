@@ -4,6 +4,7 @@ from decorators import test_decorator
 from settings import engine, settings, USER_ID
 import login
 from gameplay import fetch_next_card, add_card_to_db
+import datetime
 import pprint
 # import flask-sqlalchemy
 
@@ -88,7 +89,22 @@ def next_card():
 def add_card_to_deck():
   data = request.get_json()
   print('Received data', data)
-  add_card_to_db(data)
+  card_data = {
+              'uid': settings[USER_ID],
+              'image_front_url': '',
+              'image_front_config': '',
+              'text_front': data['text_front'],
+              'text_front_config': '',
+              'image_back_url': '',
+              'image_back_config': '',
+              'text_back': data['text_back'],
+              'text_back_config': '',
+              'right_count': 0,
+              'wrong_count': 0,
+              'current_level': 0,
+              'next_show_date': datetime.date.today()
+              }
+  add_card_to_db(card_data)
   # THIS IS NOT DOING ANYTHING? MANUALLY REDIRECTING TO THIS ROUTE IN JS
   return render_template('card-added.html')
     # NEXT TO DO
