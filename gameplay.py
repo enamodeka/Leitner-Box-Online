@@ -16,9 +16,7 @@ def fetch_next_card():
       # else if there are cards look if there are cards to be played today
       # if there are none return 0
       today = datetime.date.today()
-      # print('Today', today)
-      # tomorrow = datetime.date(today.year, today.month, today.day+1)
-      # print('Tomorrow', tomorrow)
+      
       res = con.execute(f'SELECT * FROM `cards` WHERE uid IN(\'{settings[USER_ID]}\') AND next_show_date <= \'{today}\';')
       cards = [] # empty the cards list from the previous fetch results
       for row in res:
@@ -61,13 +59,11 @@ def add_card_to_db(card_data):
 
 def count_update(card_id, answer):
   with engine.connect() as con:
-    # fetch the card
     res = con.execute(f'SELECT * FROM `cards` WHERE card_id IN(\'{card_id}\');')
     cards = []
     for row in res:
       cards.append(dict(row))
     if len(cards) == 0:
-      print('CARD OF THIS ID NOT FOUND')
       return 'Card ID error'
     card = cards[0]
 
@@ -84,10 +80,7 @@ def count_update(card_id, answer):
         next_show_daily_increment = 2**(card['current_level']-1)
         current_level = card['current_level'] + 1
 
-    print('Next play interval:', next_show_daily_increment)
-    print('Today:', today)
     next_show_date = datetime.date(today.year, today.month, today.day+next_show_daily_increment)
-    print('Next show date:', next_show_date)
 
     if answer == True:
       res = con.execute(f'''

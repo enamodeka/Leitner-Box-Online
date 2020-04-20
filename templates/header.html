@@ -7,20 +7,35 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+  {% if view == 'edit' %}
   <nav class="nav">
     <div class="nav__title">
-      Editing Card
+      <h2>Editing Card</h2>
     </div>
     <div class="nav__options">
       <ul>
         <li>
-          <a href="/edit/0">Create new card</a>
           <a id="ui_btn_add_to_deck" href="#">Add to deck</a>
-          <a href="/logout">Logout</a>
+          <!-- <a href="/logout">Logout</a> -->
         </li>
       </ul>
     </div>
   </nav>
+  {% elif view == 'game' %}
+  <nav class="nav">
+    <div class="nav__title">
+      This is th game screen.
+    </div>
+    <div class="nav__options">
+      <ul>
+        <li>
+          <a href="/card-list">Card List</a>
+          <!-- <a href="/logout">Logout</a> -->
+        </li>
+      </ul>
+    </div>
+  </nav>
+  {% endif %}
   <!-- MENU TEMPLATE -->
   <!-- <nav class="nav">
     <div class="nav__title">

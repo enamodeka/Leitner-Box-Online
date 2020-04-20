@@ -61,3 +61,36 @@ body {
   align-self: center;
   justify-self: center;
 }
+
+/* ANCHOR NAVIGATION */
+.nav {
+  display: flex;
+}
+
+.nav__title,
+.nav__options {
+  flex-basis: 50%;
+  align-items: center;
+  display: flex;
+}
+
+.nav__title h2 {
+  margin: 0;
+  padding: 0;
+  padding: 0 10px;
+}
+
+.nav__options a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.nav__options ul {
+  margin-left: auto;
+}
+
+.nav__options ul li {
+  display: inline-block;
+  padding: 0 10px;
+
+}
