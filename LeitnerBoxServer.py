@@ -3,7 +3,7 @@ from sqlalchemy import create_engine, insert
 from decorators import test_decorator
 from settings import engine, settings, USER_ID
 import login
-from gameplay import fetch_next_card, add_card_to_db
+from gameplay import fetch_next_card, add_card_to_db, count_update
 import datetime
 import pprint
 # import flask-sqlalchemy
@@ -18,7 +18,6 @@ with engine.connect() as con:
 
 # ANCHOR LOGIN
 @app.route('/')
-@test_decorator
 def show_login_view():
     return render_template('login.html')
 
@@ -26,7 +25,6 @@ def show_login_view():
 def perform_login():
   if(login.perform_login() == True):
     next_card = fetch_next_card()
-    print(next_card)
     if(next_card['card_id'] == 0):
       return render_template('game.html', cards=0)
     elif(next_card['card_id'] == -1):
@@ -50,16 +48,18 @@ def logout():
 # can be shown again.
 @app.route('/count-right/<int:card_id>')
 def count_right(card_id):
-  # load the card from DB
-  with engine.connect() as con:
-    res = con.execute(f'SELECT 1 FROM `cards` WHERE card_id IN(\'{card_id}\');')
-    # check its level and update +1
-    card = {}
-    for row in res:
-      card = dict(row)
+    count_update(card_id, True)
     # check its correct answers and update + 1
     return redirect('/next-card')
     # take current timestamp and update it by day * level
+# ANCHOR COUNT-WRONG    
+@app.route('/count-wrong/<int:card_id>')
+def count_wrong(card_id):
+    count_update(card_id, False)
+    # check its correct answers and update + 1
+    return redirect('/next-card')
+    # take current timestamp and update it by day * level
+
 
 # ANCHOR EDIT VIEW
 # EDIT VIEW
@@ -81,7 +81,7 @@ def edit(card_id):
 # ANCHOR NEXT-CARD
 @app.route('/next-card')
 def next_card():
-  pass
+  return redirect('/')
 
 
 # ANCHOR SUBMIT CARD TO DB
@@ -91,14 +91,14 @@ def add_card_to_deck():
   print('Received data', data)
   card_data = {
               'uid': settings[USER_ID],
-              'image_front_url': '',
-              'image_front_config': '',
+              'image_front_url': 'nope',
+              'image_front_config': 'nope',
               'text_front': data['text_front'],
-              'text_front_config': '',
-              'image_back_url': '',
-              'image_back_config': '',
+              'text_front_config': 'nope',
+              'image_back_url': 'nope',
+              'image_back_config': 'nope',
               'text_back': data['text_back'],
-              'text_back_config': '',
+              'text_back_config': 'nope',
               'right_count': 0,
               'wrong_count': 0,
               'current_level': 0,

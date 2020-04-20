@@ -33,12 +33,12 @@ ui_btn_flip.addEventListener('click', function(e) {
 ui_btn_add_to_deck.addEventListener('click', function(e) {
   console.log('Click')
   e.preventDefault();
-  // console.log('Unescaped front text:', ui_text_front.textContent);
-  // console.log('Escaped front text:', ui_text_front.textContent.escapeSpecialChars());
+  console.log('Unescaped front text:', ui_text_front.innerHTML.replace(/\s+/g, " "));
   const data = {
-    "text_front": ui_text_front.textContent,
-    "text_back": ui_text_back.textContent
+    "text_front": ui_text_front.innerHTML.replace(/\s+/g, " "),
+    "text_back": ui_text_back.innerHTML.replace(/\s+/g, " ")
   }
+  console.log('Data ready to stringify', data);
   const xhr = new XMLHttpRequest();
   xhr.open('POST', '/add-card');
   xhr.setRequestHeader('Content-type', 'application/json');
