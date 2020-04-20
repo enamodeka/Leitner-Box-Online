@@ -24,14 +24,7 @@ def show_login_view():
 @app.route('/perform_login', methods=['POST'])
 def perform_login():
   if(login.perform_login() == True):
-    next_card = fetch_next_card()
-    if(next_card['card_id'] == 0):
-      return render_template('game.html', cards=0)
-    elif(next_card['card_id'] == -1):
-      return render_template('game.html', cards=-1)
-    else:
-    # return render_template with new card details
-      return render_template('game.html', card_data=next_card)
+    return redirect ('/next-card')
   else:
     error_block = '<div class="form__error">Username or password are incorrect.</div>'
     return render_template('login.html', error_block=error_block)
@@ -81,7 +74,14 @@ def edit(card_id):
 # ANCHOR NEXT-CARD
 @app.route('/next-card')
 def next_card():
-  return redirect('/')
+  next_card = fetch_next_card()
+  if(next_card['card_id'] == 0):
+    return render_template('game.html', cards=0)
+  elif(next_card['card_id'] == -1):
+    return render_template('game.html', cards=-1)
+  else:
+  # return render_template with new card details
+    return render_template('game.html', card_data=next_card)
 
 
 # ANCHOR SUBMIT CARD TO DB

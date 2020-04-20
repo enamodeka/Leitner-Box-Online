@@ -71,17 +71,20 @@ def count_update(card_id, answer):
       return 'Card ID error'
     card = cards[0]
 
-
-
-    if card['current_level'] == 0 and answer == True:
-      next_show_daily_increment = 1
-    elif card['current_level'] == 0 and answer == False:
-      next_show_daily_increment = 0
-    else:
-      next_show_daily_increment = 2**(card['current_level'])
-    
-    print('Next play interval:', next_show_daily_increment)
     today = datetime.date.today()
+    next_show_daily_increment = 0
+    if answer == False:
+      next_show_date = today
+      current_level = 0
+    else:
+      if card['current_level'] == 0:
+        next_show_daily_increment = 1
+        current_level = 1
+      else:
+        next_show_daily_increment = 2**(card['current_level']-1)
+        current_level = card['current_level'] + 1
+
+    print('Next play interval:', next_show_daily_increment)
     print('Today:', today)
     next_show_date = datetime.date(today.year, today.month, today.day+next_show_daily_increment)
     print('Next show date:', next_show_date)
@@ -91,7 +94,7 @@ def count_update(card_id, answer):
         UPDATE
         `cards`
         SET
-        `current_level`={card['current_level']+1},
+        `current_level`={current_level},
         `right_count`={card['right_count']+1},
         `next_show_date`='{next_show_date}'
         WHERE

@@ -28,10 +28,11 @@ def perform_login():
 
 # DECORATOR CHECKING IF THE USER IS LOGGED IN
 # IF NOT IT REDIRECTS TO THE LOGIN SCREEN
-# def is_user_logged_in(func):
-#   @wraps(func)
-#   def wrap_func(*args, **kwargs):
-#     func(*args, **kwargs)
-    
-#     return func(*args, **kwargs)
-#   return wrap_func
+def is_user_logged_in(func):
+  @wraps(func)
+  def wrap_func(*args, **kwargs):
+    func(*args, **kwargs)
+    if settings[USER_ID] == 0:
+      pass
+    return func(*args, **kwargs)
+  return wrap_func
