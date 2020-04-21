@@ -3,7 +3,7 @@ from sqlalchemy import create_engine, insert
 from decorators import test_decorator
 from settings import engine, settings, USER_ID
 import login
-from gameplay import fetch_next_card, add_card_to_db, count_update
+from gameplay import fetch_next_card, add_card_to_db, update_card_in_db, count_update, fetch_all_cards_for_user, fetch_card
 import datetime
 import pprint
 
@@ -52,20 +52,24 @@ def count_wrong(card_id):
 
 # ANCHOR EDIT VIEW
 # EDIT VIEW
+# TODO Make sure that the cards can be only edited by the logged in user
 @app.route('/edit/<int:card_id>')
 def edit(card_id):
   if card_id != 0: 
     # fetch that card
-    card_data = {
-                'text_front': '',
-                'img_front_url': '',
-                'text_back': '',
-                'img_back_url': '/static/back_1.png'
-                }
-    return render_template('edit.html', message=f'Loading card id: {card_id}', card_data=card_data, card_id=card_id, view='edit')
+    card = fetch_card(card_id)
+    print('Card fetched: ', card)
+    return render_template('edit.html', message=f'Loading card id: {card_id}', card_data=card, card_id=card_id, view='edit')
   else:
     # create new card
-    return render_template('edit.html', message='Creating new card.', card_id=card_id, view='edit')
+    return render_template('edit.html', message='Creating new card.', card_id=card_id, view='create')
+    
+# ANCHOR DELETE
+# EDIT VIEW
+# TODO Make sure that the cards can be only deleted by the logged in user
+@app.route('/delete/<int:card_id>')
+def delete(card_id):
+  pass
 
 # ANCHOR NEXT-CARD
 @app.route('/next-card')
@@ -107,8 +111,34 @@ def add_card_to_deck():
 def card_added_to_deck():
   return render_template('card-added.html')
 
+# ANCHOR UPDATE CARD FROM EDIT MODE
+@app.route('/update-card', methods=['POST'])
+def update_card():
+  data = request.get_json()
+  print('Received data to update', data)
+  card_data = {
+              'uid': settings[USER_ID],
+              'card_id': data['card_id'],
+              'image_front_url': 'nope',
+              'image_front_config': 'nope',
+              'text_front': data['text_front'],
+              'text_front_config': 'nope',
+              'image_back_url': 'nope',
+              'image_back_config': 'nope',
+              'text_back': data['text_back'],
+              'text_back_config': 'nope',
+              'right_count': 0,
+              'wrong_count': 0,
+              'current_level': 0,
+              'next_show_date': datetime.date.today()
+              }
+  update_card_in_db(card_data)
+  # THIS IS NOT DOING ANYTHING? MANUALLY REDIRECTING TO THIS ROUTE IN JS
+  return render_template('card-added.html')
+
 # ANCHOR CARD LIST
 @app.route('/card-list')
 def card_list():
   # fetch cards
-  return render_template('card-list.html', cards=1, view='list')
+  cards = fetch_all_cards_for_user(settings[USER_ID])
+  return render_template('card-list.html', cards=cards, view='list')

@@ -23,7 +23,25 @@
   </div>
 
 {% else %}
-
+  <div class="card__container">
+    <div class="card">
+      <div id="ui_card_front" class="card__front card__show">
+        <p id="ui_text_front" class="card__text" contenteditable="true">
+          {{card_data['text_front']}}
+        </p>
+        <img src="" alt="" class="card__image">
+      </div>
+      <div id="ui_card_back" class="card__back card__hide">
+        <p id="ui_text_back" class="card__text" contenteditable="true">
+          {{card_data['text_back']}}
+        </p>
+        <img src="" alt="" class="card__image">
+      </div>
+    </div>
+    <form action="" class="card__buttons">
+      <button id="ui_btn_flip" class="card__button card__button--flip"><img src="/static/flip-icon.svg"></button>
+    </form>
+  </div>
 {% endif %}
 
 {% include 'footer.html' %}

@@ -7,15 +7,28 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-  {% if view == 'edit' %}
+  {% if view == 'create' %}
+  <nav class="nav">
+    <div class="nav__title">
+      You are creating a new card.
+    </div>
+    <div class="nav__options">
+      <ul>
+        <li><a class="color-red" href="/next-card">Delete</a></li>
+        <li><a id="ui_btn_add_to_deck" class="color-green" href="#">Add to deck</a></li>
+      </ul>
+    </div>
+  </nav>
+  {% elif view == 'edit' %}
   <nav class="nav">
     <div class="nav__title">
       You are editing a card.
     </div>
     <div class="nav__options">
       <ul>
-        <li><a class="color-red" href="/next-card">Delete</a></li>
-        <li><a id="ui_btn_add_to_deck" class="color-green" href="#">Add to deck</a></li>
+        <li><a class="color-red" href="/delete/{{ card_data['card_id']}}">Delete</a></li>
+        <li><a class="color-orange" href="/next-card">Cancel</a></li>
+        <li><a id="ui_btn_update_card" card_id="{{ card_data['card_id']}}"  class="color-green" href="#">Save</a></li>
       </ul>
     </div>
   </nav>

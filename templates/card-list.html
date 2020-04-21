@@ -10,23 +10,27 @@
 {% else %}
 
 <div class="cardList">
-  <h2 class="cardList__title">Level 1</h2>
+  {% for card in cards %}
+  <h2 class="cardList__title">Level {{ loop.index }}</h2>
   <div class="cardList__cards">
     <div class="cardList__card">
       <div class="cardList__card-body">
-        <button class="cardList__button cardList__button--edit">
+        <a href="/edit/{{ card['card_id'] }}" class="cardList__button cardList__button--edit">
           <img src="/static/edit-icon.svg" alt="">
-        </button>
-        <button class="cardList__button cardList__button--delete">
+        </a>
+        <a href="/delete/{{ card['card_id'] }}" class="cardList__button cardList__button--delete">
           <img src="/static/delete-icon.svg" alt="">
-        </button>
+        </a>
       </div>
       <div class="cardList__labels">
-        <p class="cardList__card-rightCount"><span class="color-green">RIGHT</span>1</p>
-        <p class="cardList__card-wrongCount"><span class="color-red">WRONG</span>2</p>
+        <p class="cardList__card-rightCount"><span
+        class="color-green">RIGHT</span>{{ card['right_count'] }}</p>
+        <p class="cardList__card-wrongCount"><span class="color-red">WRONG</span>{{ card['right_count'] }}</p>
       </div>
     </div>
   </div>
+  {% endfor %}
+
 </div>
 {% endif %}
 

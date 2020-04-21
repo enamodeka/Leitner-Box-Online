@@ -34,6 +34,28 @@ def fetch_next_card():
               'image_back_url': next_card['image_back_url']
               }
 
+def fetch_card(card_id):
+  with engine.connect() as con:
+    res = con.execute(f'SELECT * FROM `cards` WHERE card_id IN(\'{card_id}\');')
+    cards = []
+    for row in res:
+      cards.append(dict(row))
+    if len(cards) == 0:
+      return -1
+    else:
+      return cards[0]
+
+def fetch_all_cards_for_user(user_id):
+  with engine.connect() as con:
+    res = con.execute(f'SELECT * FROM `cards` WHERE uid IN(\'{settings[USER_ID]}\');')
+    cards = []
+    for row in res:
+      cards.append(dict(row))
+    if len(cards) == 0:
+      return -1
+    else:
+      return cards
+
 def add_card_to_db(card_data):
   with engine.connect() as con:
     res = con.execute(f'''
@@ -55,6 +77,31 @@ def add_card_to_db(card_data):
       \'{card_data["next_show_date"]}\'
       );
       ''')
+    # print('Insert response: ', res.is_insert)
+
+def update_card_in_db(card_data):
+  with engine.connect() as con:
+    res = con.execute(f'''
+      UPDATE
+      `cards`
+      SET
+      `uid`={card_data["uid"]},
+      `image_front_url`=\'{card_data["image_front_url"]}\',
+      `image_front_config`=\'{card_data["image_front_config"]}\',
+      `text_front`=\'{card_data["text_front"]}\',
+      `text_front_config`=\'{card_data["text_front_config"]}\',
+      `image_back_url`=\'{card_data["image_back_url"]}\',
+      `image_back_config`=\'{card_data["image_back_config"]}\',
+      `text_back`=\'{card_data["text_back"]}\',
+      `text_back_config`=\'{card_data["text_back_config"]}\',
+      `right_count`=\'{card_data["right_count"]}\',
+      `wrong_count`=\'{card_data["wrong_count"]}\',
+      `current_level`=\'{card_data["current_level"]}\',
+      `next_show_date`={card_data["next_show_date"]}
+      WHERE
+        `card_id`={card_data['card_id']}
+      ''')
+    print('Update performed')
     # print('Insert response: ', res.is_insert)
 
 def count_update(card_id, answer):
