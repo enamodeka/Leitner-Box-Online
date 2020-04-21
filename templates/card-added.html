@@ -1,7 +1,9 @@
 {% include 'header.html' %}
 
-<h2 class="gameplay__title">The card has been added.</h2>
-<p class="gameplay__subtitle">You can <a href="/edit/0">create another card</a>,
-  <a href="/card-list">preview the deck</a> or <a href="/next-card">play.</a></p>
+<div class="message-board">
+  <h2 class="message-board__info">The card has been added.</h2>
+  <p class="message-board__action">You can <a href="/edit/0" class="color-green">create another card</a>,
+  <a href="/card-list" class="color-orange">preview the deck</a> or <a
+  href="/next-card" class="color-blue">play.</a></p>
 
 {% include 'footer.html' %}

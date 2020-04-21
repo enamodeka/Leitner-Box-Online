@@ -1,0 +1,33 @@
+{% include 'header.html' %}
+
+{% if cards == -1 %}
+  <div class="message-board">
+    <h2 class="message-board__info">There are no cards in your deck.</h2>
+    <p class="message-board__action">You can <a href="/edit/0" class="color-green">create a card</a>
+    here.</p>
+  </div>
+
+{% else %}
+
+<div class="cardList">
+  <h2 class="cardList__title">Level 1</h2>
+  <div class="cardList__cards">
+    <div class="cardList__card">
+      <div class="cardList__card-body">
+        <button class="cardList__button cardList__button--edit">
+          <img src="/static/edit-icon.svg" alt="">
+        </button>
+        <button class="cardList__button cardList__button--delete">
+          <img src="/static/delete-icon.svg" alt="">
+        </button>
+      </div>
+      <div class="cardList__labels">
+        <p class="cardList__card-rightCount"><span class="color-green">RIGHT</span>1</p>
+        <p class="cardList__card-wrongCount"><span class="color-red">WRONG</span>2</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% include 'footer.html' %}

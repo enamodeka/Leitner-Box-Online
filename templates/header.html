@@ -10,43 +10,49 @@
   {% if view == 'edit' %}
   <nav class="nav">
     <div class="nav__title">
-      <h2>Editing Card</h2>
+      You are editing a card.
     </div>
     <div class="nav__options">
       <ul>
-        <li>
-          <a id="ui_btn_add_to_deck" href="#">Add to deck</a>
-          <!-- <a href="/logout">Logout</a> -->
-        </li>
+        <li><a class="color-red" href="/next-card">Delete</a></li>
+        <li><a id="ui_btn_add_to_deck" class="color-green" href="#">Add to deck</a></li>
       </ul>
     </div>
   </nav>
   {% elif view == 'game' %}
   <nav class="nav">
     <div class="nav__title">
-      This is th game screen.
+      This is the game screen.
     </div>
     <div class="nav__options">
       <ul>
         <li>
-          <a href="/card-list">Card List</a>
-          <!-- <a href="/logout">Logout</a> -->
+          <a href="/card-list" class="color-orange">Card List</a>
         </li>
       </ul>
     </div>
   </nav>
-  {% endif %}
-  <!-- MENU TEMPLATE -->
-  <!-- <nav class="nav">
+  {% elif view == 'list' %}
+  <nav class="nav">
     <div class="nav__title">
-      Editing
+      This is the card list screen.
     </div>
     <div class="nav__options">
       <ul>
-        <li>
-          <a href="/edit/0">Create new card</a>
-          <a href="/logout">Logout</a>
-        </li>
+        <li></li>
       </ul>
     </div>
-  </nav> -->
+  </nav>
+  {% else %}
+  <nav class="nav">
+    <div class="nav__title">
+      {% if view != '' %}  {% endif %}
+    </div>
+    <div class="nav__options">
+      <ul>
+        <li></li>
+      </ul>
+    </div>
+  </nav>
+  {% endif %}
+  <section class="content">

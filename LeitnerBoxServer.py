@@ -106,3 +106,9 @@ def add_card_to_deck():
 @app.route('/card-added')
 def card_added_to_deck():
   return render_template('card-added.html')
+
+# ANCHOR CARD LIST
+@app.route('/card-list')
+def card_list():
+  # fetch cards
+  return render_template('card-list.html', cards=1, view='list')

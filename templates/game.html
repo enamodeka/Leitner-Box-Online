@@ -1,15 +1,18 @@
 {% include 'header.html' %}
+
 {% if cards == -1 %}
-  
-  <h2 class="gameplay__title">There are no cards in your deck.</h2>
-  <p class="gameplay__subtitle">You can <a href="/edit/0">create a card</a>
-  here.</p>
+  <div class="message-board">
+    <h2 class="message-board__info">There are no cards in your deck.</h2>
+    <p class="message-board__action">You can <a href="/edit/0" class="color-green">create a card</a>
+    here.</p>
+  </div>
 
 {% elif cards == 0 %}
-
-<h2 class="gameplay__title">There are no more cards for today.</h2>
-  <p class="gameplay__subtitle"><a href="/edit/0">Create a new card</a>
-  or come back tomorrow.</p>
+  <div class="message-board">
+    <h2 class="message-board__info">There are no more cards for today.</h2>
+      <p class="message-board__action"><a href="/edit/0" class="color-green">Create a new card</a>
+      or come back tomorrow.</p>
+  </div>
 
 {% else %}
 <div class="card__container">
@@ -24,12 +27,13 @@
     </div>
   </div>
   <form action="/count-right/{{ card_data['card_id'] }}" class="card__buttons">
-    <button type="submit"  class="card__button card__button--right">Was it <span class="color-green">RIGHT?</span>?</button>
-    <button id="ui_btn_flip" class="card__button card__button--flip"><img src="/static/card-flip-icon.svg"></button>
+    <button type="submit"  class="card__button card__button--right">Was it <span class="color-green">RIGHT?</span></button>
+    <button id="ui_btn_flip" class="card__button card__button--flip"><img src="/static/flip-icon.svg"></button>
     <button type="submit" formaction="/count-wrong/{{ card_data['card_id'] }}"
     class="card__button card__button--wrong">Was it <span
-    class="color-red">WRONG?</span>?</button>
+    class="color-red">WRONG?</span></button>
   </form>
 </div>
 {% endif %}
+
 {% include 'footer.html' %}

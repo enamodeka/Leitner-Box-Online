@@ -1,17 +1,19 @@
 {% include 'header.html' %}
-<h1>Leitner Box Online</h1>
-<div class="login">
-  <form action="/perform_login" method="POST" class="login__form">
-    {{error_block|safe}}
-    <div class="login__input-group">
-      <input name="username" type="text" class="login__input-text" required>
-      <label for="username" class="login__input-label">username</label>
-    </div>
-    <div class="login__input-group">
-      <input name="password" type="password" class="login__input-text" required>
-      <label for="password" class="login__input-label">login</label>
-    </div>
-    <button class="login__button">Login</button>
-  </form>
+<h1 class="login__title">Leitner Box Online</h1>
+<div class="card__container">
+  <div class="card">
+    <form action="/perform_login" method="POST" class="login__form">
+      {{error_block|safe}}
+      <div class="login__input-group">
+        <label for="username" class="login__input-label">username</label>
+        <input name="username" type="text" class="login__input-text" required>
+      </div>
+      <div class="login__input-group">
+        <label for="password" class="login__input-label">password</label>
+        <input name="password" type="password" class="login__input-text" required>
+      </div>
+      <button class="login__button">Login</button>
+    </form>
+  </div>
 </div>
 {% include 'footer.html' %}
