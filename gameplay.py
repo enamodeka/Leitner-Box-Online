@@ -102,7 +102,19 @@ def update_card_in_db(card_data):
         `card_id`={card_data['card_id']}
       ''')
     print('Update performed')
-    # print('Insert response: ', res.is_insert)
+
+def delete_card_in_db(card_id):
+  with engine.connect() as con:
+    res = con.execute(f'''
+      DELETE
+      FROM
+      `cards`
+      WHERE
+      card_id = {card_id}
+      ''')
+    print('Card deleted')
+  # .DELETE FROM `cards` WHERE card_id = 46
+
 
 def count_update(card_id, answer):
   with engine.connect() as con:

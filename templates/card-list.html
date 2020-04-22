@@ -9,29 +9,34 @@
 
 {% else %}
 
-<div class="cardList">
-  {% for card in cards %}
-  <h2 class="cardList__title">Level {{ loop.index }}</h2>
-  <div class="cardList__cards">
-    <div class="cardList__card">
-      <div class="cardList__card-body">
-        <a href="/edit/{{ card['card_id'] }}" class="cardList__button cardList__button--edit">
-          <img src="/static/edit-icon.svg" alt="">
-        </a>
-        <a href="/delete/{{ card['card_id'] }}" class="cardList__button cardList__button--delete">
-          <img src="/static/delete-icon.svg" alt="">
-        </a>
-      </div>
-      <div class="cardList__labels">
-        <p class="cardList__card-rightCount"><span
-        class="color-green">RIGHT</span>{{ card['right_count'] }}</p>
-        <p class="cardList__card-wrongCount"><span class="color-red">WRONG</span>{{ card['right_count'] }}</p>
-      </div>
-    </div>
-  </div>
-  {% endfor %}
+{% for i in levels %}
+<!-- <h1>LOOP {{ loop.index }}</h1> -->
+<h2 class="cardList__title">Level {{ loop.index0  }}</h2>
 
-</div>
+<div class="cardList">
+  <div class="cardList__cards">
+    {% for card in cards %}
+      {% if card['current_level'] == i %}
+        <div class="cardList__card">
+          <div class="cardList__card-body">
+            <a href="/edit/{{ card['card_id'] }}" class="cardList__button cardList__button--edit">
+              <img src="/static/edit-icon.svg" alt="">
+            </a>
+            <a id="ui_btn_delete_card" card_id="{{ card['card_id']}}" href="/delete/{{ card['card_id'] }}" class="cardList__button cardList__button--delete">
+              <img src="/static/delete-icon.svg" alt="">
+            </a>
+          </div>
+          <div class="cardList__labels">
+            <p class="cardList__card-rightCount"><span
+            class="color-green">RIGHT</span>{{ card['right_count'] }}</p>
+            <p class="cardList__card-wrongCount"><span class="color-red">WRONG</span>{{ card['wrong_count'] }}</p>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+  </div>
+{% endfor %}
 {% endif %}
 
 {% include 'footer.html' %}

@@ -97,7 +97,7 @@ body {
 .content {
   display: flex;
   flex: 1;
-  overflow: auto;
+  /* overflow: auto; */
   flex-direction: column;
   justify-items: center;
   align-items: center;

@@ -3,7 +3,7 @@ from sqlalchemy import create_engine, insert
 from decorators import test_decorator
 from settings import engine, settings, USER_ID
 import login
-from gameplay import fetch_next_card, add_card_to_db, update_card_in_db, count_update, fetch_all_cards_for_user, fetch_card
+from gameplay import fetch_next_card, add_card_to_db, update_card_in_db, count_update, fetch_all_cards_for_user, fetch_card, delete_card_in_db
 import datetime
 import pprint
 
@@ -69,7 +69,26 @@ def edit(card_id):
 # TODO Make sure that the cards can be only deleted by the logged in user
 @app.route('/delete/<int:card_id>')
 def delete(card_id):
-  pass
+  # data = request.get_json()
+  # print('Received data to delete', data)
+  # card_data = {
+  #             'uid': settings[USER_ID],
+  #             'card_id': data['card_id'],
+  #             'image_front_url': 'nope',
+  #             'image_front_config': 'nope',
+  #             'text_front': data['text_front'],
+  #             'text_front_config': 'nope',
+  #             'image_back_url': 'nope',
+  #             'image_back_config': 'nope',
+  #             'text_back': data['text_back'],
+  #             'text_back_config': 'nope',
+  #             'right_count': 0,
+  #             'wrong_count': 0,
+  #             'current_level': 0,
+  #             'next_show_date': datetime.date.today()
+  #             }
+  delete_card_in_db(card_id)
+  return redirect('/card-list')
 
 # ANCHOR NEXT-CARD
 @app.route('/next-card')
@@ -141,4 +160,4 @@ def update_card():
 def card_list():
   # fetch cards
   cards = fetch_all_cards_for_user(settings[USER_ID])
-  return render_template('card-list.html', cards=cards, view='list')
+  return render_template('card-list.html', cards=cards, levels={0,1,2,3,4,5,6,7}, view='list')
