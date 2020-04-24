@@ -93,11 +93,7 @@ def update_card_in_db(card_data):
       `image_back_url`=\'{card_data["image_back_url"]}\',
       `image_back_config`=\'{card_data["image_back_config"]}\',
       `text_back`=\'{card_data["text_back"]}\',
-      `text_back_config`=\'{card_data["text_back_config"]}\',
-      `right_count`=\'{card_data["right_count"]}\',
-      `wrong_count`=\'{card_data["wrong_count"]}\',
-      `current_level`=\'{card_data["current_level"]}\',
-      `next_show_date`={card_data["next_show_date"]}
+      `text_back_config`=\'{card_data["text_back_config"]}\'
       WHERE
         `card_id`={card_data['card_id']}
       ''')

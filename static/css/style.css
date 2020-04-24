@@ -140,7 +140,7 @@ body {
 
 .card {
   background: white;
-
+  position: relative;
   display: flex;
   flex-direction: column;
 
@@ -148,6 +148,8 @@ body {
   flex-wrap: wrap;
   width: 602px;
   height: 318px;
+
+  touch-action: none;
 }
 
 .card__front,
@@ -188,6 +190,11 @@ body {
   padding: 30px;
 }
 
+.card__image {
+  touch-action: none;
+  user-select: none;
+}
+
 .card__buttons {
   padding: 20px;
   display: flex;
@@ -213,6 +220,11 @@ body {
 .card__button--flip img {
   height: 70px;
   width: 70px;
+}
+
+.card__button--right,
+.card__button--wrong {
+  display: none;
 }
 
 /* ANCHOR LOGIN */
@@ -311,6 +323,8 @@ input:-webkit-autofill {
   width: 50%;
   cursor: pointer;
   opacity: 0;
+  display: flex;
+  justify-content: center;
 }
 
 .cardList__button:hover {

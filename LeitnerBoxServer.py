@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from sqlalchemy import create_engine, insert
 from decorators import test_decorator
 from settings import engine, settings, USER_ID
@@ -6,9 +6,26 @@ import login
 from gameplay import fetch_next_card, add_card_to_db, update_card_in_db, count_update, fetch_all_cards_for_user, fetch_card, delete_card_in_db
 import datetime
 import pprint
+import os
+import uuid
+from werkzeug.utils import secure_filename
+
+# Meta
+##################
+__version__ = '0.1.0'
+
+# Config
+##################
+BASE_DIR = os.path.dirname(__file__)
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+UPLOAD_FOLDER = './static/uploads'# os.path.join(MEDIA_ROOT, 'upload')
+ALLOWED_EXTENSIONS = {'jpg', 'png'}
+
 
 app = Flask(__name__)
 app_name = 'Leitner Box Online'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 with engine.connect() as con:
   rs = con.execute('SELECT * FROM users')
@@ -69,24 +86,6 @@ def edit(card_id):
 # TODO Make sure that the cards can be only deleted by the logged in user
 @app.route('/delete/<int:card_id>')
 def delete(card_id):
-  # data = request.get_json()
-  # print('Received data to delete', data)
-  # card_data = {
-  #             'uid': settings[USER_ID],
-  #             'card_id': data['card_id'],
-  #             'image_front_url': 'nope',
-  #             'image_front_config': 'nope',
-  #             'text_front': data['text_front'],
-  #             'text_front_config': 'nope',
-  #             'image_back_url': 'nope',
-  #             'image_back_config': 'nope',
-  #             'text_back': data['text_back'],
-  #             'text_back_config': 'nope',
-  #             'right_count': 0,
-  #             'wrong_count': 0,
-  #             'current_level': 0,
-  #             'next_show_date': datetime.date.today()
-  #             }
   delete_card_in_db(card_id)
   return redirect('/card-list')
 
@@ -103,7 +102,7 @@ def next_card():
 
 
 # ANCHOR SUBMIT CARD TO DB
-@app.route('/add-card', methods=['POST'])
+@app.route('/add-card', methods=['POST', 'GET'])
 def add_card_to_deck():
   data = request.get_json()
   print('Received data', data)
@@ -135,6 +134,7 @@ def card_added_to_deck():
 def update_card():
   data = request.get_json()
   print('Received data to update', data)
+  # TODO 
   card_data = {
               'uid': settings[USER_ID],
               'card_id': data['card_id'],
@@ -145,11 +145,7 @@ def update_card():
               'image_back_url': 'nope',
               'image_back_config': 'nope',
               'text_back': data['text_back'],
-              'text_back_config': 'nope',
-              'right_count': 0,
-              'wrong_count': 0,
-              'current_level': 0,
-              'next_show_date': datetime.date.today()
+              'text_back_config': 'nope'
               }
   update_card_in_db(card_data)
   # THIS IS NOT DOING ANYTHING? MANUALLY REDIRECTING TO THIS ROUTE IN JS
@@ -161,3 +157,42 @@ def card_list():
   # fetch cards
   cards = fetch_all_cards_for_user(settings[USER_ID])
   return render_template('card-list.html', cards=cards, levels={0,1,2,3,4,5,6,7}, view='list')
+  
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# ANCHOR FILE UPLOAD HANDLE
+@app.route('/upload/image', methods=['POST'])
+def upload_file():
+  if request.method == 'POST':
+    print('we are in POST')
+    print('request.method', request.method)
+    print('request.args', request.args)
+    print('request.form', request.form)
+    print('request.files', request.files)
+      # check if the post request has the file part
+    if 'file' not in request.files:
+        print('No file part')
+        return redirect('/error')
+    file = request.files['file']
+    # if user does not select file, browser also
+    # submit an empty part without filename
+    if file.filename == '':
+        print('No selected file')
+    # if user does not select file, browser also
+    # submit an empty part without filename
+    if file.filename == '':
+        print('No selected file')
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        print('File filename:', file.filename)
+        file_ext = file.filename[-4:]
+        print('File extension:', file_ext)
+        new_filename = str(uuid.uuid4().hex) + file_ext
+        print('New filename:', new_filename)
+        
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filename))
+        return f'/static/uploads/{new_filename}', 200
+  
+     
