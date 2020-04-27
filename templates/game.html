@@ -19,16 +19,16 @@
   <div class="card">
     <div id="ui_card_front" class="card__front">
       <div class="card__text">{{ card_data['text_front']|safe }}</div>
-      <img src="{{ card_data['image_front_url'] }}" alt="" class="card__image">
+      <div alt="" class="card__image"></div>
     </div>
     <div id="ui_card_back" class="card__back">
       <div class="card__text">{{ card_data['text_back']|safe }}</div>
-      <img src="{{ card_data['image_back_url'] }}" alt="" class="card__image">
+      <div alt="" class="card__image"></div>
     </div>
   </div>
   <form action="/count-right/{{ card_data['card_id'] }}" class="card__buttons">
     <button type="submit"  class="card__button card__button--right">Was it <span class="color-green">RIGHT?</span></button>
-    <button id="ui_btn_flip" class="card__button card__button--flip"><img src="/static/flip-icon.svg"></button>
+    <button id="ui_btn_flip" class="card__button card__button--flip"><img src="/static/img/flip-icon.svg"></button>
     <button type="submit" formaction="/count-wrong/{{ card_data['card_id'] }}"
     class="card__button card__button--wrong">Was it <span
     class="color-red">WRONG?</span></button>

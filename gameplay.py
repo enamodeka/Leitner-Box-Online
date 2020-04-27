@@ -1,6 +1,7 @@
 from settings import engine, settings, USER_ID
 from decorators import test_decorator
 import datetime
+import random
 
 def fetch_next_card():
   with engine.connect() as con:
@@ -25,7 +26,9 @@ def fetch_next_card():
       if len(cards) == 0:
         return { 'card_id': 0 }
       else:
-        next_card = cards[0]
+        # get a random card
+        
+        next_card = random.choice(cards)
         return {
               'card_id': next_card['card_id'], 
               'text_front': next_card['text_front'],
