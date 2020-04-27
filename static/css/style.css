@@ -40,6 +40,10 @@ body {
   display: flex;
 }
 
+.container {
+  display: flex;
+}
+
 /* ANCHOR NAVIGATION */
 .nav {
   display: flex;
@@ -143,6 +147,7 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   border-radius: 45px;
   flex-wrap: wrap;
@@ -159,6 +164,7 @@ body {
   width: 602px;
   height: 318px;
   display: flex;
+  overflow: hidden;
 }
 
 .card__front {
@@ -188,16 +194,29 @@ body {
   align-self: center;
   justify-self: center;
   padding: 30px;
+  z-index: 2;
+  color: white;
+  text-shadow: 1px 1px 1px white;
+  text-shadow: 1px 1px 1px black;
+  background-color: rgba(0,0,0.5,.35)
 }
 
 .card__image {
   touch-action: none;
+  user-select: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  border: none;
+  background-repeat: no-repeat;
   user-select: none;
 }
 
 .card__buttons {
   padding: 20px;
   display: flex;
+  /* flex-basis: 100%; */
 }
 
 .card__button {
@@ -345,4 +364,24 @@ input:-webkit-autofill {
 
 .cardList__labels p span {
   padding-right: 5px;
+}
+
+.imageMenu {
+  display: flex;
+  align-items: center;
+  padding: 50px;
+}
+
+.imageMenu__button {
+  background-image: url(../img/image-icon.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 70px;
+  height: 70px;
+  display: block;
+  color: transparent;
+}
+
+#input-file {
+  display: none;
 }

@@ -2,6 +2,7 @@ from settings import engine, settings, USER_ID
 from decorators import test_decorator
 import datetime
 import random
+import json
 
 def fetch_next_card():
   with engine.connect() as con:
@@ -33,8 +34,10 @@ def fetch_next_card():
               'card_id': next_card['card_id'], 
               'text_front': next_card['text_front'],
               'image_front_url': next_card['image_front_url'],
+              'image_front_config': json.loads(next_card['image_front_config']),
               'text_back': next_card['text_back'],
-              'image_back_url': next_card['image_back_url']
+              'image_back_url': next_card['image_back_url'],
+              'image_back_config': json.loads(next_card['image_back_config'])
               }
 
 def fetch_card(card_id):
@@ -46,7 +49,16 @@ def fetch_card(card_id):
     if len(cards) == 0:
       return -1
     else:
-      return cards[0]
+      next_card = cards[0]
+      return {
+              'card_id': next_card['card_id'], 
+              'text_front': next_card['text_front'],
+              'image_front_url': next_card['image_front_url'],
+              'image_front_config': json.loads(next_card['image_front_config']),
+              'text_back': next_card['text_back'],
+              'image_back_url': next_card['image_back_url'],
+              'image_back_config': json.loads(next_card['image_back_config'])
+              }
 
 def fetch_all_cards_for_user(user_id):
   with engine.connect() as con:

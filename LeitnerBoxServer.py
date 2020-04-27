@@ -9,6 +9,7 @@ import pprint
 import os
 import uuid
 from werkzeug.utils import secure_filename
+import json
 
 # Meta
 ##################
@@ -106,14 +107,15 @@ def next_card():
 def add_card_to_deck():
   data = request.get_json()
   print('Received data', data)
+  print('Json dumps: ', json.dumps(data))
   card_data = {
               'uid': settings[USER_ID],
-              'image_front_url': 'nope',
-              'image_front_config': 'nope',
+              'image_front_url': data['image_front_url'],
+              'image_front_config': json.dumps(data['image_front_config']),
               'text_front': data['text_front'],
               'text_front_config': 'nope',
-              'image_back_url': 'nope',
-              'image_back_config': 'nope',
+              'image_back_url': data['image_back_url'],
+              'image_back_config': json.dumps(data['image_back_config']),
               'text_back': data['text_back'],
               'text_back_config': 'nope',
               'right_count': 0,
@@ -138,12 +140,12 @@ def update_card():
   card_data = {
               'uid': settings[USER_ID],
               'card_id': data['card_id'],
-              'image_front_url': 'nope',
-              'image_front_config': 'nope',
+              'image_front_url': data['image_front_url'],
+              'image_front_config': json.dumps(data['image_front_config']),
               'text_front': data['text_front'],
               'text_front_config': 'nope',
-              'image_back_url': 'nope',
-              'image_back_config': 'nope',
+              'image_back_url': data['image_back_url'],
+              'image_back_config': json.dumps(data['image_back_config']),
               'text_back': data['text_back'],
               'text_back_config': 'nope'
               }

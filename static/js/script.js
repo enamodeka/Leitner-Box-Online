@@ -11,18 +11,33 @@ const ui_text_back = document.querySelector("#ui_text_back");
 const ui_btn_right = document.querySelector(".card__button--right");
 const ui_btn_wrong = document.querySelector(".card__button--wrong");
 const ui_btn_upload = document.querySelector("#ui_btn_upload");
+const ui_input_file= document.querySelector("#input-file");
 const ui_card = document.querySelector("#ui_card");
 const ui_image_front = document.querySelector("#ui_image_front");
 const ui_image_back = document.querySelector("#ui_image_back");
 
-/**
+/*****************
  * STATE VARIABLES
- */
+ *****************/
 let card_flip = false;
+
+let image_front_url = '';
+let image_front_scale = 1;
+let image_front_xPos = 0;
+let image_front_yPos = 0;
+
+let image_back_url = '';
+let image_back_scale = 1;
+let image_back_xPos = 0;
+let image_back_yPos = 0;
 
 /**
  * LISTENERS
  */
+
+ /**
+  * TOGGLE CARD FACE / ANSWER BUTTONS
+  */
 if (ui_btn_flip != null) {
   ui_btn_flip.addEventListener("click", function (e) {
     console.log("Click");
@@ -43,9 +58,17 @@ if (ui_btn_flip != null) {
     }
   });
 }
+
+if (ui_input_file != null) {
+ui_input_file.addEventListener('change', function() {
+  uploadFile();
+})
+
+}
+
+// ADD NEW CARD
 if (ui_btn_add_to_deck != null) {
   ui_btn_add_to_deck.addEventListener("click", function (e) {
-    console.log("Click");
     e.preventDefault();
     console.log(
       "Unescaped front text:",
@@ -54,6 +77,18 @@ if (ui_btn_add_to_deck != null) {
     const data = {
       text_front: ui_text_front.innerHTML.replace(/\s+/g, " "),
       text_back: ui_text_back.innerHTML.replace(/\s+/g, " "),
+      image_front_url: image_front_url,
+      image_back_url: image_back_url,
+      image_front_config: {
+        image_front_scale,
+        image_front_xPos,
+        image_front_yPos
+      },
+      image_back_config: {
+        image_back_scale,
+        image_back_xPos,
+        image_back_yPos
+      }
     };
     console.log("Data ready to stringify", data);
     const xhr = new XMLHttpRequest();
@@ -76,7 +111,6 @@ if (ui_btn_update_card != null) {
     e.preventDefault();
     card_id = this.getAttribute("card_id");
     alert("Card saved.");
-    console.log("Click");
     console.log(
       "Unescaped front text:",
       ui_text_front.innerHTML.replace(/\s+/g, " ")
@@ -85,6 +119,18 @@ if (ui_btn_update_card != null) {
       card_id: card_id,
       text_front: ui_text_front.innerHTML.replace(/\s+/g, " "),
       text_back: ui_text_back.innerHTML.replace(/\s+/g, " "),
+      image_front_url: image_front_url,
+      image_back_url: image_back_url,
+      image_front_config: {
+        image_front_scale,
+        image_front_xPos,
+        image_front_yPos
+      },
+      image_back_config: {
+        image_back_scale,
+        image_back_xPos,
+        image_back_yPos
+      }
     };
     console.log("Data ready to stringify", data);
     const xhr = new XMLHttpRequest();
@@ -102,10 +148,9 @@ if (ui_btn_update_card != null) {
   });
 }
 
-if (ui_btn_upload != null) {
-  ui_btn_upload.addEventListener("click", (e) => {
-    e.preventDefault();
-    let photo = document.getElementById("input-file").files[0]; // file from input
+function uploadFile() {
+  console.log('uplaod func')
+  let photo = document.getElementById("input-file").files[0];
     let form = document.getElementById("form");
     let data = new FormData(form);
     const xhr = new XMLHttpRequest();
@@ -113,36 +158,69 @@ if (ui_btn_upload != null) {
     xhr.send(data);
     xhr.onload = () => {
       if (xhr.status === 200) {
-        // image uploaded to the server
         if (!card_flip) {
-          // set image at card front
           setImage(xhr.responseText, "front");
         } else {
-          // set image at card back
           setImage(xhr.responseText, "back");
         }
       }
     };
+}
+
+if (ui_btn_upload != null) {
+  ui_btn_upload.addEventListener("click", (e) => {
+    e.preventDefault();
+    ui_input_file.click();
   });
 }
 
 const setImage = (url, side) => {
   if (side == "front") {
+    image_front_url = url;
     let scale = 100;
     ui_image_front.style.backgroundImage = "url('" + url + "')";
     ui_card_front.addEventListener("wheel", (e) => {
       scale = scale + e.deltaY;
       ui_image_front.style.backgroundSize = scale + "%";
+      image_front_scale = scale;
     });
   } else {
+    image_back_url = url;
     let scale = 100;
     ui_image_back.style.backgroundImage = "url('" + url + "')";
     ui_card_back.addEventListener("wheel", (e) => {
       scale = scale + e.deltaY;
       ui_image_back.style.backgroundSize = scale + "%";
+      image_back_scale = scale;
     });
   }
 };
+
+/**
+ * Load Card Config from DB
+ */
+
+ function loadCardFromDB(card_data) {
+  console.log(card_data);
+  image_front_url = card_data['image_front_url'];
+  image_front_scale = card_data['image_front_config']['image_front_scale'];
+  image_front_xPos = card_data['image_front_config']['image_front_xPos'];
+  image_front_yPos = card_data['image_front_config']['image_front_yPos'];
+
+  image_back_url = card_data['image_back_url'];
+  image_back_scale = card_data['image_back_config']['image_back_scale'];
+  image_back_xPos = card_data['image_back_config']['image_back_xPos'];;
+  image_back_yPos = card_data['image_back_config']['image_back_yPos'];
+
+  setImage(image_front_url, 'front');
+  setImage(image_back_url, 'back');
+
+  ui_image_front.style.backgroundSize = image_front_scale + "%";
+  ui_image_back.style.backgroundSize = image_back_scale + "%";
+
+  setTranslate(image_front_xPos, image_front_yPos, ui_image_front);
+  setTranslate(image_back_xPos, image_back_yPos, ui_image_back);
+ }
 
 /**
  *
@@ -245,8 +323,12 @@ function drag(e) {
 
     if (!card_flip) {
       setTranslate(currentX, currentY, ui_image_front);
+      image_front_xPos = currentX;
+      image_front_yPos = currentY;
     } else {
       setTranslate(currentX, currentY, ui_image_back);
+      image_back_xPos = currentX;
+      image_back_yPos = currentY;
     }
   }
 }

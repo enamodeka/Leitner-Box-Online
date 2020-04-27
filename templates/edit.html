@@ -1,34 +1,38 @@
 {% include 'header.html' %}
 
 {% if card_id == 0 %}
-  <div class="card__container">
-    <div>
-      Here's my uploader.
+  <div class="container">
+    <div class="imageMenu">
       <form id="form" enctype=multipart/form-data method="POST" class="uploader">
-        <input id="input-file" type="file" name="file">
-        <a id="ui_btn_upload" href="">Upload</a>
+        <input id="input-file" class="" type="file" name="file">
+        <a id="ui_btn_upload" class="imageMenu__button" href="#">Upload</a>
       </form>
     </div>
-    <div id="ui_card" class="card" >
-      <div id="ui_card_front" class="card__front card__show">
-        <p id="ui_text_front" class="card__text" contenteditable="true">
-          Enter your question here...<br>Remember, keep the chunk: small,
-          connected and meaningful.
-        </p>
-        <div id="ui_image_front" class="card__image"
-        ondragstart="return false;"></div>
+    <div class="card__container">
+      <div id="ui_card" class="card" >
+        <div id="ui_card_front" class="card__front card__show">
+          <p id="ui_text_front" class="card__text" contenteditable="true">
+            Enter your question here...<br>Remember, keep the chunk: small,
+            connected and meaningful.
+          </p>
+          <div id="ui_image_front" class="card__image"
+          ondragstart="return false;"></div>
+        </div>
+        <div id="ui_card_back" class="card__back card__hide">
+          <p id="ui_text_back" class="card__text" contenteditable="true">
+            What is the answer?
+          </p>
+          <div id="ui_image_back" class="card__image"
+          ondragstart="return false;"></div>
+        </div>
       </div>
-      <div id="ui_card_back" class="card__back card__hide">
-        <p id="ui_text_back" class="card__text" contenteditable="true">
-          What is the answer?
-        </p>
-        <div id="ui_image_back" class="card__image"
-        ondragstart="console.log('Dragging back'); return false;"></div>
-      </div>
+      <form action="" class="card__buttons">
+        <button id="ui_btn_flip" class="card__button card__button--flip"><img src="/static/img/flip-icon.svg"></button>
+      </form>
     </div>
-    <form action="" class="card__buttons">
-      <button id="ui_btn_flip" class="card__button card__button--flip"><img src="/static/img/flip-icon.svg"></button>
-    </form>
+    <div class="textMenu">
+      
+    </div>
   </div>
 
 {% else %}
@@ -39,19 +43,25 @@
         <div id="ui_text_front" class="card__text" contenteditable="true">
           {{card_data['text_front']|safe}}
         </div>
-        <img src="" alt="" class="card__image">
+        <div id="ui_image_front" ondragstart="return false;" class="card__image"></div>
       </div>
       <div id="ui_card_back" class="card__back card__hide">
         <div id="ui_text_back" class="card__text" contenteditable="true">
           {{card_data['text_back']|safe}}
         </div>
-        <img src="" alt="" class="card__image">
+        <div id="ui_image_back" ondragstart="return false;" class="card__image"></div>
       </div>
     </div>
     <form action="" class="card__buttons">
       <button id="ui_btn_flip" class="card__button card__button--flip"><img src="/static/img/flip-icon.svg"></button>
     </form>
   </div>
+  <script>
+    setTimeout(function() {
+      loadCardFromDB({{card_data|safe}})
+    },
+    1)
+  </script>
 {% endif %}
 
 {% include 'footer.html' %}
