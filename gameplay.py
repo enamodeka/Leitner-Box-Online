@@ -147,7 +147,7 @@ def count_update(card_id, answer):
         next_show_daily_increment = 1
         current_level = 1
       else:
-        next_show_daily_increment = 2**(card['current_level']-1)
+        next_show_daily_increment = 2**(card['current_level'])
         current_level = card['current_level'] + 1
 
     next_show_date = datetime.date(today.year, today.month, today.day+next_show_daily_increment)
@@ -170,7 +170,7 @@ def count_update(card_id, answer):
         SET
         `current_level`=0,
         `wrong_count`={card['wrong_count']+1},
-        `next_show_date`='{next_show_date}'
+        `next_show_date`='{today}'
         WHERE
         `card_id`={card_id}
       ''')
