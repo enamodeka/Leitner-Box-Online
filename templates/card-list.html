@@ -19,6 +19,7 @@
       {% if card['current_level'] == i %}
         <div class="cardList__card">
           <div class="cardList__card-body">
+            <p class="cardList__card-index">{{ card['card_id'] }}</p>
             <a href="/edit/{{ card['card_id'] }}" class="cardList__button cardList__button--edit">
               <img src="/static/img/edit-icon.svg" alt="">
             </a>

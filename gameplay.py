@@ -1,6 +1,7 @@
 from settings import engine, settings, USER_ID
 from decorators import test_decorator
 import datetime
+import arrow
 import random
 import json
 
@@ -150,7 +151,10 @@ def count_update(card_id, answer):
         next_show_daily_increment = 2**(card['current_level'])
         current_level = card['current_level'] + 1
 
-    next_show_date = datetime.date(today.year, today.month, today.day+next_show_daily_increment)
+    
+    next_show_date = arrow.utcnow().shift(days=+next_show_daily_increment).date()
+    print('Next show date: ', next_show_date)
+    # next_show_date = datetime.date(today.year, today.month, today.day+next_show_daily_increment)
 
     if answer == True:
       res = con.execute(f'''

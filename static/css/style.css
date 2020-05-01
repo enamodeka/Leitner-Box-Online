@@ -310,6 +310,12 @@ input:-webkit-autofill {
 }
 
 /* ANCHOR CARD LIST */
+
+.cardList {
+  padding: 50px;
+  justify-content: center;
+}
+
 .cardList__title {
   font-size: 64px;
   text-align: center;
@@ -321,8 +327,12 @@ input:-webkit-autofill {
   flex-wrap: wrap;
 }
 
+.cardList__card {
+  padding: 10px;
+}
+
 .cardList__card:not(:first-of-type) {
-  margin-left: 40px;
+  /* margin-left: 40px; */
 }
 
 .cardList__card-body {
@@ -334,6 +344,16 @@ input:-webkit-autofill {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.cardList__card-index {
+  font-size: 30px;
+  font-weight: bold;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #ccc;
 }
 
 .cardList__button {

@@ -5,6 +5,7 @@ from settings import engine, settings, USER_ID
 import login
 from gameplay import fetch_next_card, add_card_to_db, update_card_in_db, count_update, fetch_all_cards_for_user, fetch_card, delete_card_in_db
 import datetime
+import arrow
 import pprint
 import os
 import uuid
@@ -27,6 +28,15 @@ app = Flask(__name__)
 app_name = 'Leitner Box Online'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+app.run('0.0.0.0')
+
+
+today = datetime.date.today()
+print('TOday:', today)
+arw = arrow.utcnow()
+print('Arw ', arw)
+today = arw.shift(days=+365).date()
+print('TOday after shift: ', today)
 
 with engine.connect() as con:
   rs = con.execute('SELECT * FROM users')
