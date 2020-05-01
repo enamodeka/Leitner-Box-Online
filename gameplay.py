@@ -1,5 +1,4 @@
 from settings import engine, settings, USER_ID
-from decorators import test_decorator
 import datetime
 import arrow
 import random
@@ -33,6 +32,7 @@ def fetch_next_card():
         next_card = random.choice(cards)
         return {
               'card_id': next_card['card_id'], 
+              'current_level': next_card['current_level'], 
               'text_front': next_card['text_front'],
               'image_front_url': next_card['image_front_url'],
               'image_front_config': json.loads(next_card['image_front_config']),
@@ -172,7 +172,7 @@ def count_update(card_id, answer):
         UPDATE
         `cards`
         SET
-        `current_level`=0,
+        `current_level`={current_level},
         `wrong_count`={card['wrong_count']+1},
         `next_show_date`='{today}'
         WHERE

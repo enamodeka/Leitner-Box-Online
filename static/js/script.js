@@ -22,12 +22,12 @@ const ui_image_back = document.querySelector("#ui_image_back");
 let card_flip = false;
 
 let image_front_url = '';
-let image_front_scale = 1;
+let image_front_scale = 100;
 let image_front_xPos = 0;
 let image_front_yPos = 0;
 
 let image_back_url = '';
-let image_back_scale = 1;
+let image_back_scale = 100;
 let image_back_xPos = 0;
 let image_back_yPos = 0;
 
@@ -48,12 +48,18 @@ if (ui_btn_flip != null) {
       ui_btn_wrong.style.cssText = "display: block";
     }
     if (!card_flip) {
+      ui_card_front.classList.add("card__front--flip");
+      ui_card_back.classList.add("card__back--flip");
       ui_card_front.classList.add("card__front--hide");
       ui_card_back.classList.add("card__back--show");
+      
       card_flip = true;
     } else {
-      ui_card_back.classList.remove("card__back--show");
+      ui_card_back.classList.remove("card__back--flip");
+      ui_card_front.classList.remove("card__front--flip");
       ui_card_front.classList.remove("card__front--hide");
+      ui_card_back.classList.remove("card__back--show");
+      
       card_flip = false;
     }
   });
@@ -179,6 +185,7 @@ const setImage = (url, side) => {
     image_front_url = url;
     let scale = 100;
     ui_image_front.style.backgroundImage = "url('" + url + "')";
+    ui_image_front.style.backgroundSize = scale + "%";
     ui_card_front.addEventListener("wheel", (e) => {
       scale = scale + e.deltaY;
       ui_image_front.style.backgroundSize = scale + "%";
@@ -188,6 +195,7 @@ const setImage = (url, side) => {
     image_back_url = url;
     let scale = 100;
     ui_image_back.style.backgroundImage = "url('" + url + "')";
+    ui_image_back.style.backgroundSize = scale + "%";
     ui_card_back.addEventListener("wheel", (e) => {
       scale = scale + e.deltaY;
       ui_image_back.style.backgroundSize = scale + "%";

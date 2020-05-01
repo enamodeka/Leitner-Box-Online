@@ -105,7 +105,7 @@ body {
   flex-direction: column;
   justify-items: center;
   align-items: center;
-  margin: auto;
+  /* margin: auto; */
   justify-content: center;
 }
 
@@ -143,13 +143,16 @@ body {
 }
 
 .card {
-  background: white;
+  
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  /* overflow: hidden; */
 
-  border-radius: 45px;
+  perspective: 150rem;
+  transition: all .8s ease;
+
+  
   flex-wrap: wrap;
   width: 602px;
   height: 318px;
@@ -159,26 +162,43 @@ body {
 
 .card__front,
 .card__back {
+  background-color: white;
+  border-radius: 45px;
   position: absolute;
   flex: 1;
-  width: 602px;
+  /* width: 602px; */
+  width: 100%;
   height: 318px;
   display: flex;
   overflow: hidden;
+  transition: all .8s;
+
+  backface-visibility: hidden;
 }
 
 .card__front {
-  opacity: 1;
+  /* opacity: 1; */
   pointer-events: all;
 }
 
+
+
+.card__front--flip {
+  transform: rotateY(180deg);
+}
+
 .card__back {
-  opacity: 0;
+  /* opacity: 0; */
   pointer-events: none;
+  transform: rotateY(-180deg);
+}
+
+.card__back--flip {
+  transform: rotateY(0);
 }
 
 .card__front--hide {
-  opacity: 0;
+  /* opacity: 0; */
   pointer-events: none;
 }
 
@@ -244,6 +264,13 @@ body {
 .card__button--right,
 .card__button--wrong {
   display: none;
+}
+
+.card__level-info {
+  margin-left: auto;
+  align-self: flex-end;
+  font-size: 30px;
+  padding: 5px 20px 0;
 }
 
 /* ANCHOR LOGIN */

@@ -29,10 +29,11 @@ def perform_login():
 # DECORATOR CHECKING IF THE USER IS LOGGED IN
 # IF NOT IT REDIRECTS TO THE LOGIN SCREEN
 def is_user_logged_in(func):
-  @wraps(func)
   def wrap_func(*args, **kwargs):
-    func(*args, **kwargs)
     if settings[USER_ID] == 0:
-      pass
-    return func(*args, **kwargs)
+      print('User not logged in. Rerouting')
+      return redirect('/')
+    else:
+      return func(*args, **kwargs)
+  wrap_func.__name__ = func.__name__
   return wrap_func

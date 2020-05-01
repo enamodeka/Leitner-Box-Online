@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from sqlalchemy import create_engine, insert
-from decorators import test_decorator
 from settings import engine, settings, USER_ID
 import login
 from gameplay import fetch_next_card, add_card_to_db, update_card_in_db, count_update, fetch_all_cards_for_user, fetch_card, delete_card_in_db
@@ -29,14 +28,6 @@ app_name = 'Leitner Box Online'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 app.run('0.0.0.0')
-
-
-today = datetime.date.today()
-print('TOday:', today)
-arw = arrow.utcnow()
-print('Arw ', arw)
-today = arw.shift(days=+365).date()
-print('TOday after shift: ', today)
 
 with engine.connect() as con:
   rs = con.execute('SELECT * FROM users')
@@ -67,12 +58,14 @@ def logout():
 # this method updates the card's right answer number +1, 
 # its level + 1 and updates the time it can be shown again.
 @app.route('/count-right/<int:card_id>')
+@login.is_user_logged_in
 def count_right(card_id):
     count_update(card_id, True)
     return redirect('/next-card')
 
 # ANCHOR COUNT-WRONG    
 @app.route('/count-wrong/<int:card_id>')
+@login.is_user_logged_in
 def count_wrong(card_id):
     count_update(card_id, False)
     return redirect('/next-card')
@@ -82,6 +75,7 @@ def count_wrong(card_id):
 # EDIT VIEW
 # TODO Make sure that the cards can be only edited by the logged in user
 @app.route('/edit/<int:card_id>')
+@login.is_user_logged_in
 def edit(card_id):
   if card_id != 0: 
     # fetch that card
@@ -96,12 +90,14 @@ def edit(card_id):
 # EDIT VIEW
 # TODO Make sure that the cards can be only deleted by the logged in user
 @app.route('/delete/<int:card_id>')
+@login.is_user_logged_in
 def delete(card_id):
   delete_card_in_db(card_id)
   return redirect('/card-list')
 
 # ANCHOR NEXT-CARD
 @app.route('/next-card')
+@login.is_user_logged_in
 def next_card():
   next_card = fetch_next_card()
   if(next_card['card_id'] == 0):
@@ -114,6 +110,7 @@ def next_card():
 
 # ANCHOR SUBMIT CARD TO DB
 @app.route('/add-card', methods=['POST', 'GET'])
+# @login.is_user_logged_in
 def add_card_to_deck():
   data = request.get_json()
   print('Received data', data)
@@ -138,11 +135,13 @@ def add_card_to_deck():
   return render_template('card-added.html')
 
 @app.route('/card-added')
+@login.is_user_logged_in
 def card_added_to_deck():
   return render_template('card-added.html')
 
 # ANCHOR UPDATE CARD FROM EDIT MODE
 @app.route('/update-card', methods=['POST'])
+@login.is_user_logged_in
 def update_card():
   data = request.get_json()
   print('Received data to update', data)
@@ -165,6 +164,7 @@ def update_card():
 
 # ANCHOR CARD LIST
 @app.route('/card-list')
+@login.is_user_logged_in
 def card_list():
   # fetch cards
   cards = fetch_all_cards_for_user(settings[USER_ID])
