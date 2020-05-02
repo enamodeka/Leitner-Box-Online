@@ -100,12 +100,13 @@ def delete(card_id):
 @login.is_user_logged_in
 def next_card():
   next_card = fetch_next_card()
+  print(next_card)
   if(next_card['card_id'] == 0):
     return render_template('game.html', cards=0, view='game')
   elif(next_card['card_id'] == -1):
     return render_template('game.html', cards=-1, view='game')
   else:
-    return render_template('game.html', card_data=next_card, view='game')
+    return render_template('game.html', cards=1, card_data=next_card, view='game')
 
 
 # ANCHOR SUBMIT CARD TO DB
@@ -119,12 +120,12 @@ def add_card_to_deck():
               'uid': settings[USER_ID],
               'image_front_url': data['image_front_url'],
               'image_front_config': json.dumps(data['image_front_config']),
+              'text_front_config': json.dumps(data['text_front_config']),
               'text_front': data['text_front'],
-              'text_front_config': 'nope',
               'image_back_url': data['image_back_url'],
               'image_back_config': json.dumps(data['image_back_config']),
+              'text_back_config': json.dumps(data['text_back_config']),
               'text_back': data['text_back'],
-              'text_back_config': 'nope',
               'right_count': 0,
               'wrong_count': 0,
               'current_level': 0,
@@ -151,12 +152,12 @@ def update_card():
               'card_id': data['card_id'],
               'image_front_url': data['image_front_url'],
               'image_front_config': json.dumps(data['image_front_config']),
+              'text_front_config': json.dumps(data['text_front_config']),
               'text_front': data['text_front'],
-              'text_front_config': 'nope',
               'image_back_url': data['image_back_url'],
               'image_back_config': json.dumps(data['image_back_config']),
-              'text_back': data['text_back'],
-              'text_back_config': 'nope'
+              'text_back_config': json.dumps(data['text_back_config']),
+              'text_back': data['text_back']
               }
   update_card_in_db(card_data)
   # THIS IS NOT DOING ANYTHING? MANUALLY REDIRECTING TO THIS ROUTE IN JS

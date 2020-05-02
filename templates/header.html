@@ -41,15 +41,19 @@
     </div>
     <div class="nav__options">
       <ul>
-        {% if cards != 0 %}
+        <li>
+          <a href="/edit/0" class="color-green">Create Card</a>
+        </li>
+        {% if cards > 0 %}
         <li>
           <a href="/edit/{{card_data['card_id']}}" class="color-orange">Edit Card</a>
         </li>
         {% endif %}
+        
         <li>
           <a href="/card-list" class="color-orange">Card List</a>
         </li>
-        {% if cards != 0 %}
+        {% if cards > 0 %}
         <li>
           <a href="/next-card" class="color-blue">Next Card</a>
         </li>

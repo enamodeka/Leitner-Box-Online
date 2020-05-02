@@ -215,10 +215,50 @@ body {
   justify-self: center;
   padding: 30px;
   z-index: 2;
-  color: white;
+  position: relative;
+ 
+  /* background-color: rgba(0,0,0.5,.35) */
+}
+
+.card__text--style-1 {
+  color: #646464;
   text-shadow: 1px 1px 1px white;
+}
+
+.card__text--style-2 {
+  color: white;
   text-shadow: 1px 1px 1px black;
-  background-color: rgba(0,0,0.5,.35)
+  filter: drop-shadow(1px 1px 1px rgba(0,0,0.25,.65));
+}
+
+.card__text--style-2:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0.25,.65);
+  background-attachment: fixed;
+  filter: blur(30px);
+    z-index: -10;
+}
+
+.card__text--style-3 {
+  color: white;
+}
+
+.card__text--style-3:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: purple;
+  background-attachment: fixed;
+  filter: blur(30px);
+    z-index: -10;
 }
 
 .card__image {
@@ -431,4 +471,64 @@ input:-webkit-autofill {
 
 #input-file {
   display: none;
+}
+
+/* TEXT STYLE MENU */
+
+.textMenu {
+  align-items: center;
+}
+
+.textMenu__size {
+  display: flex;
+}
+
+.textMenu__size-label {
+
+}
+
+.textMenu__size-icon-plus {
+  background: url(../img/plus-icon.svg);
+  width: 70px;
+  height: 70px;
+  border: none;
+  background-color: none;
+  background-size: contain;
+  cursor: pointer;
+}
+.textMenu__size-icon-minus {
+  background: url(../img/minus-icon.svg);
+  width: 70px;
+  height: 70px;
+  border: none;
+  background-color: none;
+  background-size: contain;
+  cursor: pointer;
+}
+.textMenu__style-icon-1 {
+  background: url(../img/one-icon.svg);
+  width: 70px;
+  height: 70px;
+  border: none;
+  background-color: none;
+  background-size: contain;
+  cursor: pointer;
+}
+.textMenu__style-icon-2 {
+  background: url(../img/two-icon.svg);
+  width: 70px;
+  height: 70px;
+  border: none;
+  background-color: none;
+  background-size: contain;
+  cursor: pointer;
+}
+.textMenu__style-icon-3 {
+  background: url(../img/three-icon.svg);
+  width: 70px;
+  height: 70px;
+  border: none;
+  background-color: none;
+  background-size: contain;
+  cursor: pointer;
 }

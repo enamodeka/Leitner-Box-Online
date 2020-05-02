@@ -31,13 +31,30 @@
       </form>
     </div>
     <div class="textMenu">
-      
+      <div class="textMenu__size">
+        <div class="textMenu__size-label">Text size</div>
+        <button id="ui_btn_text_bigger" class="textMenu__size-icon-plus"></button>
+        <button id="ui_btn_text_smaller" class="textMenu__size-icon-minus"></button>
+      </div>
+      <div class="textMenu__style">
+        <div class="textMenu__style-label">Text style</div>
+        <button id="ui_btn_text_style1" class="textMenu__style-icon-1"></button>
+        <button id="ui_btn_text_style2" class="textMenu__style-icon-2"></button>
+        <button id="ui_btn_text_style3" class="textMenu__style-icon-3"></button>
+        
+      </div>
     </div>
   </div>
 
 {% else %}
+<div class="container">
+  <div class="imageMenu">
+    <form id="form" enctype=multipart/form-data method="POST" class="uploader">
+      <input id="input-file" class="" type="file" name="file">
+      <a id="ui_btn_upload" class="imageMenu__button" href="#">Upload</a>
+    </form>
+  </div>
   <div class="card__container">
-   
     <div class="card">
       <div id="ui_card_front" class="card__front card__show">
         <div id="ui_text_front" class="card__text" contenteditable="true">
@@ -56,6 +73,21 @@
       <button id="ui_btn_flip" class="card__button card__button--flip"><img src="/static/img/flip-icon.svg"></button>
     </form>
   </div>
+  <div class="textMenu">
+    <div class="textMenu__size">
+      <div class="textMenu__size-label">Text size</div>
+      <button id="ui_btn_text_bigger" class="textMenu__size-icon-plus"></button>
+      <button id="ui_btn_text_smaller" class="textMenu__size-icon-minus"></button>
+    </div>
+    <div class="textMenu__style">
+      <div class="textMenu__style-label">Text style</div>
+      <button id="ui_btn_text_style1" class="textMenu__style-icon-1"></button>
+      <button id="ui_btn_text_style2" class="textMenu__style-icon-2"></button>
+      <button id="ui_btn_text_style3" class="textMenu__style-icon-3"></button>
+      
+    </div>
+  </div>
+</div>
   <script>
     setTimeout(function() {
       loadCardFromDB({{card_data|safe}})
